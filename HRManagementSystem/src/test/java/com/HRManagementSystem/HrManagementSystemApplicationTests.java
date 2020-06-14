@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
- * Unit Tests
+ * Unit Tests 
  * 
- * @author rino
+ * @author Roman Nikolov
  *
  */
 @SpringBootTest
