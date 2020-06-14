@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,7 +37,7 @@ public class RestServiceController {
 	 * 
 	 * @return all employees
 	 */
-	@GetMapping("/employees")
+	@GetMapping(value = "/restShowEmployees", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Employee> getAllEmployees() {
 		return (List<Employee>) employeeRepository.findAll();
 	}
@@ -48,8 +49,8 @@ public class RestServiceController {
 	 * @return
 	 * @throws ResourceNotFoundException
 	 */
-	@GetMapping("/employees/{id}")
-	public ResponseEntity<Employee> getEmployeeById(@PathVariable(value = "id") int employeeId)
+	@GetMapping(value = "/restGetEmployee/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Employee> getEmployee(@PathVariable(value = "id") int employeeId)
 			throws ResourceNotFoundException {
 		Employee employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
@@ -62,9 +63,10 @@ public class RestServiceController {
 	 * @param employee
 	 * @return
 	 */
-	@PostMapping("/employees")
-	public Employee createEmployee(@Validated @RequestBody Employee employee) {
-		return employeeRepository.save(employee);
+	@PostMapping(value = "/restAddEmployee", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Employee> addEmployee(@Validated @RequestBody Employee employee) {
+		employeeRepository.save(employee);
+		return ResponseEntity.ok().body(employee);
 	}
 
 	/**
@@ -75,7 +77,7 @@ public class RestServiceController {
 	 * @return
 	 * @throws ResourceNotFoundException
 	 */
-	@PutMapping("/employees/{id}")
+	@PutMapping(value = "/restUpdateEmployee/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Employee> updateEmployee(@PathVariable(value = "id") int employeeId,
 			@Validated @RequestBody Employee employeeDetails) throws ResourceNotFoundException {
 		Employee employee = employeeRepository.findById(employeeId)
@@ -92,7 +94,7 @@ public class RestServiceController {
 		employee.setTelephone(employeeDetails.getTelephone());
 		
 		final Employee updatedEmployee = employeeRepository.save(employee);
-		return ResponseEntity.ok(updatedEmployee);
+		return ResponseEntity.ok().body(updatedEmployee);
 	}
 
 	/**
@@ -102,7 +104,7 @@ public class RestServiceController {
 	 * @return
 	 * @throws ResourceNotFoundException
 	 */
-	@DeleteMapping("/employees/{id}")
+	@DeleteMapping(value = "/restDeleteEmployee/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") int employeeId)
 			throws ResourceNotFoundException {
 		Employee employee = employeeRepository.findById(employeeId)
