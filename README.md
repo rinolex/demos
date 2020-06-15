@@ -2,7 +2,7 @@
 
 1) HRManagementSystem Application
     Tecchology Stack:
-      Spring Boot added dependencies for the following applications:
+      Spring Boot added dependencies for the following libraries:
       Spring Data JPA (Hibernate implementation), 
       PostgreSQL, 
       Spring Web,
