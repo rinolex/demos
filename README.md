@@ -7,7 +7,7 @@
       PostgreSQL, 
       Spring Web,
       Bootstrap 4.5.0,
-      Javax - Servlet, JSTL, JSP
+      Javax (Servlet, JSTL and JSP)
       Tomcat,
       Jasper,
       Devtools,
