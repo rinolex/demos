@@ -12,9 +12,9 @@ import com.HRManagementSystem.model.Employee;
  *
  */
 public interface EmployeeService {
- // These are all business service methods used by the app.
+ // Employee Services
  List<Employee> showAllEmployees();
- void saveEmployee(Employee Employee);
+ boolean saveEmployee(Employee Employee);
  Employee editEmployee(int id);
  void deleteEmployee(int id);
  List<Employee> findLatest();

@@ -1,6 +1,7 @@
 <!DOCTYPE html >
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras/springsecurity5">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,7 +24,7 @@
 			<a class="navbar-brand">HR Management System</a>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="/">Home</a></li>
+					<li><a href="/showALLEmployees">Show All Employees</a></li>
 					<li><a href="/addEmployee">Add Employee</a></li>
 					<li><a href="/showLatestEntries">Last Added Employees</a></li>
 					<li><a href="/sortByNameASC">Sort By First Name</a></li>
@@ -37,6 +38,11 @@
 				<h3>Add/Edit Employee</h3>
 				<hr>
 				<form class="form-horizontal" method="POST" action="saveEmployee">
+					<c:if test="${not empty error }">
+						<div class= "alert alert-danger">
+							<c:out value="${error}"></c:out>
+							</div>
+					</c:if>
 					<input type="hidden" name="id" value="${employee.id }" />
 					<div class="form-group">
 						<label class="control-label col-md-3">First Name</label>

@@ -9,6 +9,7 @@ import com.HRManagementSystem.model.Employee;
 
 /**
  * Repository interface based on the Spring Date Hibernate implementation
+ * for the Employee model
  * 
  * @author Roman Nikolov
  *
@@ -17,7 +18,8 @@ import com.HRManagementSystem.model.Employee;
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	// Named queries that could be used for fast fetching employees 
 	// according to certain criteria
-	List<Employee>findTopByOrderByIdDesc();
+	List<Employee> findTopByOrderByIdDesc();
 	List <Employee> findTop3ByOrderByIdDesc();
 	List <Employee> findAllByOrderByFirstNameAsc();
+	List<Employee> findByEmail(String email);
 }

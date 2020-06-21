@@ -31,13 +31,12 @@ public class RestServiceController {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
-
 	/**
 	 * List all employees
 	 * 
 	 * @return all employees
 	 */
-	@GetMapping(value = "/restShowEmployees", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/rest/showEmployees", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Employee> getAllEmployees() {
 		return (List<Employee>) employeeRepository.findAll();
 	}
@@ -49,7 +48,7 @@ public class RestServiceController {
 	 * @return
 	 * @throws ResourceNotFoundException
 	 */
-	@GetMapping(value = "/restGetEmployee/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/rest/getEmployee/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Employee> getEmployee(@PathVariable(value = "id") int employeeId)
 			throws ResourceNotFoundException {
 		Employee employee = employeeRepository.findById(employeeId)
@@ -63,7 +62,7 @@ public class RestServiceController {
 	 * @param employee
 	 * @return
 	 */
-	@PostMapping(value = "/restAddEmployee", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/rest/addEmployee", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Employee> addEmployee(@Validated @RequestBody Employee employee) {
 		employeeRepository.save(employee);
 		return ResponseEntity.ok().body(employee);
@@ -77,7 +76,7 @@ public class RestServiceController {
 	 * @return
 	 * @throws ResourceNotFoundException
 	 */
-	@PutMapping(value = "/restUpdateEmployee/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/rest/updateEmployee/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Employee> updateEmployee(@PathVariable(value = "id") int employeeId,
 			@Validated @RequestBody Employee employeeDetails) throws ResourceNotFoundException {
 		Employee employee = employeeRepository.findById(employeeId)
@@ -104,7 +103,7 @@ public class RestServiceController {
 	 * @return
 	 * @throws ResourceNotFoundException
 	 */
-	@DeleteMapping(value = "/restDeleteEmployee/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/rest/deleteEmployee/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") int employeeId)
 			throws ResourceNotFoundException {
 		Employee employee = employeeRepository.findById(employeeId)
