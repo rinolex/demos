@@ -7,12 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.HRManagementSystem.model.Employee;
 import com.HRManagementSystem.service.EmployeeService;
+import com.HRManagementSystem.service.UserServices;
 
 /**
  * <p>
@@ -27,20 +26,23 @@ import com.HRManagementSystem.service.EmployeeService;
 public class ApplicationController {
 	@Autowired
 	EmployeeService employeeService;
-
+	
+	@Autowired
+	UserServices userServices;
+	
 	/**
-	 * Home/Index page for the HR Management System
+	 * Welcome page Model
 	 * 
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("/")
-	public String homePage(HttpServletRequest request) {
+	public String Welcome(HttpServletRequest request) {
 		request.setAttribute("employees", employeeService.showAllEmployees());
 		request.setAttribute("mode", "ALL_EMPLOYEES");
 		return "welcomepage";
 	}
-
+	
 	/**
 	 * Displays all employee entries
 	 * 
@@ -65,6 +67,28 @@ public class ApplicationController {
 		request.setAttribute("mode", "ADD_EMPLOYEE");
 		return "welcomepage";
 	}
+	
+	/**
+	 * Persists employee entry into the database
+	 * 
+	 * @param employee
+	 * @param bindingResult
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/saveEmployee")
+	public String saveEmployee(@ModelAttribute Employee employee, BindingResult bindingResult, 
+								HttpServletRequest request) {
+		if(employeeService.saveEmployee(employee)) {	
+			request.setAttribute("employees", employeeService.showAllEmployees());
+			request.setAttribute("mode", "ALL_EMPLOYEES");
+			return "welcomepage";
+		} else {
+			request.setAttribute("error", "Employee With This Email Already Exists");
+			request.setAttribute("mode", "ADD_EMPLOYEE");
+			return "welcomepage";
+		}
+	}
 
 	/**
 	 * Edits single employee using its unique ID
@@ -80,22 +104,6 @@ public class ApplicationController {
 		return "welcomepage";
 	}
 
-	/**
-	 * Persists employee entry into the database
-	 * 
-	 * @param employee
-	 * @param bindingResult
-	 * @param request
-	 * @return
-	 */
-	@PostMapping("/saveEmployee")
-	public String saveEmployee(@ModelAttribute Employee employee, BindingResult bindingResult,
-			HttpServletRequest request) {
-		employeeService.saveEmployee(employee);
-		request.setAttribute("employees", employeeService.showAllEmployees());
-		request.setAttribute("mode", "ALL_EMPLOYEES");
-		return "welcomepage";
-	}
 
 	/**
 	 * Deletes single employee using its unique ID

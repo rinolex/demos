@@ -2,6 +2,7 @@ package com.HRManagementSystem.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
+	
 	/**
 	 * List all database entries
 	 */
@@ -39,9 +41,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 *  
 	 *  @param Populated Employee Object
 	 */
-	public void saveEmployee(Employee employee ) {
-		System.out.println(employee);
-		employeeRepository.save(employee);
+	public boolean saveEmployee(Employee employee ) {
+		if(employee.getId() == 0) {
+			if (employeeRepository.findByEmail(employee.getEmail()).isEmpty()) {
+				employeeRepository.save(employee);
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			employeeRepository.save(employee);
+			return true;
+		}
 	}
 	
 	/**
